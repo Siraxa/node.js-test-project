@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<title>My jQuery JSON Web Page</title>
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript">
+
+			JSONTest = function() {
+				for (var i = 0; i < $('.numbersOnly').val(); i++){
+					$.ajax({
+						url: "http://localhost:8000/track",
+						type: "POST",
+						data: { "name":"John", "age":31, "city":"New York" , "count":2},
+						dataType: "json",
+						success: function (result) {
+							switch (result) {
+								case true:
+									processResponse(result);
+									break;
+								default:
+									resultDiv.html(result);
+							}
+						},
+						error: function (xhr, ajaxOptions, thrownError) {
+
+						}
+					});
+				}
+				
+				$.ajax({
+					type: "GET",
+					url: "http://localhost:8000/count",
+					data: "",
+					cache: false,
+					success: function(data){
+						alert(data);		
+					}
+				});
+					
+				$('.numbersOnly').keyup(function () { 
+					this.value = this.value.replace(/[^0-9\.]/g,'');
+				});
+			};
+		</script>
+	</head>
+	<body>
+
+		<h1>Performance test</h1>
+
+		<input type="text" class="numbersOnly" value="" />
+
+		<button type="button" onclick="JSONTest()">Fire</button>
+
+	</body>
+</html> 
